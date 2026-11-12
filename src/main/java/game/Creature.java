@@ -203,18 +203,18 @@ public class Creature {
 			modifyXp(amount);
 	}
 
-	public void modifyHp(int amount, String causeOfDeath) { 
-		hp += amount;
-		this.causeOfDeath = causeOfDeath;
-		
-		if (hp > maxHp) {
-			hp = maxHp;
-		} else if (hp < 1) {
-			doAction("die");
-			leaveCorpse();
-			world.remove(this);
-		}
+	// Modified modifyHp() for Exam:
+	public void modifyHp(int amount, String causeOfDeath) {
+    	hp = CombatRules.calculateNewHp(hp, maxHp, amount);
+    	this.causeOfDeath = causeOfDeath;
+
+    	if (CombatRules.isDead(hp)) {
+        	doAction("die");
+        	leaveCorpse();
+        	world.remove(this);
+    	}
 	}
+
 	
 	private void leaveCorpse(){
 		Item corpse = new Item('%', color, name + " corpse", null);
