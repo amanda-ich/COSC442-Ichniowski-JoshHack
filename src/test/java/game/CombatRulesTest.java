@@ -22,7 +22,8 @@ public class CombatRulesTest {
     @CsvSource({
         "-1, true",
         "50, false",
-        "100, false"
+        "100, false",
+        "1, false"
     })
     void testIsDead(int currentHp, boolean expected) {
         boolean actual = CombatRules.isDead(currentHp);
