@@ -46,6 +46,16 @@
             </plugin>
 
             <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>4.10.5.0</version>
+                <configuration>
+                    <sarifOutput>true</sarifOutput>
+                    <sarifOutputFilename>spotbugs.sarif</sarifOutputFilename>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.6.4</version>
