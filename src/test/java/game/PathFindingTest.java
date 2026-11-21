@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PathFindingTest {
@@ -102,5 +103,33 @@ class PathFindingTest {
         assertEquals(4, destination.x);
         assertEquals(1, destination.y);
         assertEquals(0, destination.z);
+    }
+
+    @Test
+    void returnedPathCannotMutateStoredRoute() {
+        Tile[][][] tiles = new Tile[6][3][1];
+        for (int x = 0; x < 6; x++) {
+            for (int y = 0; y < 3; y++) {
+                tiles[x][y][0] = Tile.FLOOR;
+            }
+        }
+
+        World world = new World(tiles);
+        Creature creature = new Creature(
+            world, '@', Color.WHITE, "player", 100, 10, 5);
+        creature.x = 1;
+        creature.y = 1;
+        creature.z = 0;
+        new CreatureAi(creature);
+        Path path = new Path(creature, 4, 1);
+        Point originalFirstStep = path.points().get(0);
+
+        List<Point> exposedPoints = path.points();
+        exposedPoints.get(0).x = 99;
+
+        assertEquals(originalFirstStep.x, path.points().get(0).x);
+        assertThrows(
+            UnsupportedOperationException.class,
+            exposedPoints::clear);
     }
 }

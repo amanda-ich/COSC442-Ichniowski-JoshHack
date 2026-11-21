@@ -3,11 +3,15 @@ package ui;
 import java.awt.event.KeyEvent;
 
 import asciiPanel.AsciiPanel;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import game.Creature;
 
 public class LoseScreen implements Screen {
 	private Creature player;
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "The screen displays the cause of death from the same player instance.")
 	public LoseScreen(Creature player){
 		this.player = player;
 	}

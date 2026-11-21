@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class Creature {
 	private World world;
@@ -19,6 +20,9 @@ public class Creature {
 	public Color color() { return color; }
 
 	private CreatureAi ai;
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "The AI must share this creature to update its live game state.")
 	public void setCreatureAi(CreatureAi ai) { this.ai = ai; }
 	
 	private int maxHp;
@@ -52,6 +56,9 @@ public class Creature {
 	public String name() { return name; }
 
 	private Inventory inventory;
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP",
+		justification = "Gameplay systems mutate the creature's shared inventory through its API.")
 	public Inventory inventory() { return inventory; }
 
 	private int maxFood;
@@ -61,9 +68,15 @@ public class Creature {
 	public int food() { return food; }
 	
 	private Item weapon;
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP",
+		justification = "Equipment identity is shared with the inventory and combat systems.")
 	public Item weapon() { return weapon; }
 	
 	private Item armor;
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP",
+		justification = "Equipment identity is shared with the inventory and combat systems.")
 	public Item armor() { return armor; }
 	
 	private int xp;
@@ -89,7 +102,7 @@ public class Creature {
 	public void modifyRegenHpPer1000(int amount) { regenHpPer1000 += amount; }
 	
 	private List<Effect> effects;
-	public List<Effect> effects(){ return effects; }
+	public List<Effect> effects(){ return List.copyOf(effects); }
 	
 	private int maxMana;
 	public int maxMana() { return maxMana; }
@@ -106,6 +119,9 @@ public class Creature {
 	private String causeOfDeath;
 	public String causeOfDeath() { return causeOfDeath; }
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "Creatures must operate on the shared mutable world they belong to.")
 	public Creature(World world, char glyph, Color color, String name, int maxHp, int attack, int defense){
 		this.world = world;
 		this.glyph = glyph;
@@ -455,6 +471,9 @@ public class Creature {
 		}
 	}
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "The equipped item must remain the same object held in the creature's inventory.")
 	public void equip(Item item){
 		if (!inventory.contains(item)) {
 			if (inventory.isFull()) {

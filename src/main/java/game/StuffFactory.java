@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 import asciiPanel.AsciiPanel;
 
@@ -15,6 +16,9 @@ public class StuffFactory {
 	private Map<String, Color> potionColors;
 	private List<String> potionAppearances;
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "Factory-created entities and items must be added to the active world.")
 	public StuffFactory(World world){
 		this.world = world;
 		

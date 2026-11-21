@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import asciiPanel.AsciiPanel;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import game.Creature;
 import game.Item;
 import game.Spell;
@@ -16,6 +17,9 @@ public class ReadSpellScreen implements Screen {
 	private int sx;
 	private int sy;
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "Casting must use the active player and the exact spellbook selected from inventory.")
 	public ReadSpellScreen(Creature player, int sx, int sy, Item item){
 		this.player = player;
 		this.letters = "abcdefghijklmnopqrstuvwxyz";

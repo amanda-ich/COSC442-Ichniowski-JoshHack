@@ -1,5 +1,6 @@
 package ui;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import game.Creature;
 import game.Item;
 import game.Line;
@@ -8,6 +9,9 @@ import game.Point;
 public class ThrowAtScreen extends TargetBasedScreen {
 	private Item item;
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "The screen must throw the exact mutable item selected from inventory.")
 	public ThrowAtScreen(Creature player, int sx, int sy, Item item) {
 		super(player, "Throw " + player.nameOf(item) + " at?", sx, sy);
 		this.item = item;

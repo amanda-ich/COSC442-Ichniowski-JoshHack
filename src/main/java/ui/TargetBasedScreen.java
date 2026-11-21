@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.event.KeyEvent;
 import asciiPanel.AsciiPanel;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import game.Creature;
 import game.Line;
 import game.Point;
@@ -15,6 +16,9 @@ public abstract class TargetBasedScreen implements Screen {
 	private int x;
 	private int y;
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "Target actions must operate on the active player's live world state.")
 	public TargetBasedScreen(Creature player, String caption, int sx, int sy){
 		this.player = player;
 		this.caption = caption;

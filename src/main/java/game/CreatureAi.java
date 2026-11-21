@@ -4,10 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class CreatureAi {
 	protected Creature creature;
 	private Map<String, String> itemNames;
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "The AI must keep a live reference to the creature it controls.")
 	public CreatureAi(Creature creature){
 		this.creature = creature;
 		this.creature.setCreatureAi(this);

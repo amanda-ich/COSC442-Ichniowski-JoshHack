@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.awt.Color;
 
@@ -109,7 +111,11 @@ public class CreatureTest {
 
     @Test
     void testEffects() {
-
+        assertTrue(creature.effects().isEmpty());
+        assertThrows(
+            UnsupportedOperationException.class,
+            () -> creature.effects().add(new Effect(1)));
+        assertTrue(creature.effects().isEmpty());
     }
 
     @Test

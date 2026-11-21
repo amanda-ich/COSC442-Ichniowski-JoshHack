@@ -20,12 +20,23 @@ public class World {
 	private List<Creature> creatures;
 	
 	public World(Tile[][][] tiles){
-		this.tiles = tiles;
+		this.tiles = copyTiles(tiles);
 		this.width = tiles.length;
 		this.height = tiles[0].length;
 		this.depth = tiles[0][0].length;
 		this.creatures = new ArrayList<Creature>();
 		this.items = new Item[width][height][depth];
+	}
+
+	private Tile[][][] copyTiles(Tile[][][] source) {
+		Tile[][][] copy = new Tile[source.length][][];
+		for (int x = 0; x < source.length; x++) {
+			copy[x] = new Tile[source[x].length][];
+			for (int y = 0; y < source[x].length; y++) {
+				copy[x][y] = source[x][y].clone();
+			}
+		}
+		return copy;
 	}
 
 	public Creature creature(int x, int y, int z){

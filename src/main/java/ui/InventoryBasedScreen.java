@@ -3,6 +3,7 @@ package ui;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import asciiPanel.AsciiPanel;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import game.Creature;
 import game.Item;
 
@@ -15,6 +16,9 @@ public abstract class InventoryBasedScreen implements Screen {
 	protected abstract boolean isAcceptable(Item item);
 	protected abstract Screen use(Item item);
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "Inventory actions must operate on the active player's live state.")
 	public InventoryBasedScreen(Creature player){
 		this.player = player;
 		this.letters = "abcdefghijklmnopqrstuvwxyz";

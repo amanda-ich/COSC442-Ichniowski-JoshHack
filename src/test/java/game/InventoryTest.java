@@ -60,6 +60,18 @@ class InventoryTest {
     }
 
     @Test
+    void getItemsReturnsDefensiveArrayCopy() {
+        inventory.add(apple);
+
+        Item[] items = inventory.getItems();
+        items[0] = potion;
+        items[1] = sword;
+
+        assertSame(apple, inventory.get(0));
+        assertNull(inventory.get(1));
+    }
+
+    @Test
     void testRemoveExistingAndNonExistingItems() {
         Item anotherApple = createItem("apple");
 

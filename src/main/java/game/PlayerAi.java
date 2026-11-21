@@ -2,11 +2,16 @@ package game;
 
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class PlayerAi extends CreatureAi {
 
 	private List<String> messages;
 	private FieldOfView fov;
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "The UI and player AI intentionally share the live message history.")
 	public PlayerAi(Creature creature, List<String> messages, FieldOfView fov) {
 		super(creature);
 		this.messages = messages;

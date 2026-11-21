@@ -1,5 +1,7 @@
 package game;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class FieldOfView {
 	private World world;
 	private int depth;
@@ -14,6 +16,9 @@ public class FieldOfView {
 		return tiles[x][y][z];
 	}
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "Visibility is calculated from the live world as it changes.")
 	public FieldOfView(World world){
 		this.world = world;
 		this.visible = new boolean[world.width()][world.height()];

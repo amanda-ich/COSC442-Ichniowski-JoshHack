@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StuffFactoryTest {
@@ -148,6 +149,16 @@ class StuffFactoryTest {
         assertSpell(blueMageBook, "blink", 6);
         assertSpell(blueMageBook, "summon bats", 11);
         assertSpell(blueMageBook, "detect creatures", 16);
+    }
+
+    @Test
+    void writtenSpellsCannotBeRemovedThroughAccessor() {
+        Item spellbook = factory.newWhiteMagesSpellbook(0);
+
+        assertThrows(
+            UnsupportedOperationException.class,
+            () -> spellbook.writtenSpells().clear());
+        assertEquals(4, spellbook.writtenSpells().size());
     }
 
     @Test

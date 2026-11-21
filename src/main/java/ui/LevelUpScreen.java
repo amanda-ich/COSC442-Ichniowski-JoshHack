@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.util.List;
 
 import asciiPanel.AsciiPanel;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import game.Creature;
 import game.LevelUpController;
 
@@ -12,6 +13,9 @@ public class LevelUpScreen implements Screen {
 	private Creature player;
 	private int picks;
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "Level-up choices update the active player's live stats.")
 	public LevelUpScreen(Creature player, int picks){
 		this.controller = new LevelUpController();
 		this.player = player;

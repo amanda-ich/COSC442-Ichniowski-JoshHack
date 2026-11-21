@@ -1,9 +1,14 @@
 package game;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class FungusAi extends CreatureAi {
 	private StuffFactory factory;
 	private int spreadcount;
 	
+	@SuppressFBWarnings(
+		value = "EI_EXPOSE_REP2",
+		justification = "Fungus AI uses the shared factory to add creatures to the same world.")
 	public FungusAi(Creature creature, StuffFactory factory) {
 		super(creature);
 		this.factory = factory;
