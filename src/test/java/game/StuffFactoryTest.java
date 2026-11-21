@@ -2,10 +2,12 @@ package game;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -146,6 +148,38 @@ class StuffFactoryTest {
         assertSpell(blueMageBook, "blink", 6);
         assertSpell(blueMageBook, "summon bats", 11);
         assertSpell(blueMageBook, "detect creatures", 16);
+    }
+
+    @Test
+    void randomFactoryMethodsReturnValidItems() {
+        Item weapon = factory.randomWeapon(0);
+        Item armor = factory.randomArmor(0);
+        Item potion = factory.randomPotion(0);
+        Item spellbook = factory.randomSpellBook(0);
+
+        assertTrue(List.of("dagger", "sword", "bow", "staff")
+            .contains(weapon.name()));
+        assertTrue(List.of("tunic", "chainmail", "platemail")
+            .contains(armor.name()));
+        assertTrue(List.of(
+            "health potion",
+            "mana potion",
+            "slow health potion",
+            "poison potion",
+            "warrior's potion",
+            "archers potion",
+            "experience potion"
+        ).contains(potion.name()));
+        assertNotNull(potion.quaffEffect());
+        assertTrue(List.of(
+            "white mage's spellbook", "blue mage's spellbook"
+        ).contains(spellbook.name()));
+        assertFalse(spellbook.writtenSpells().isEmpty());
+
+        assertItemPlaced(weapon, weapon.name(), weapon.glyph());
+        assertItemPlaced(armor, armor.name(), armor.glyph());
+        assertItemPlaced(potion, potion.name(), potion.glyph());
+        assertItemPlaced(spellbook, spellbook.name(), spellbook.glyph());
     }
 
     private void assertCreaturePlaced(
