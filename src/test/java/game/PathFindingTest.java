@@ -13,6 +13,44 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class PathFindingTest {
 
     @Test
+    void routesAroundWallWithoutCrossingIt() {
+        Tile[][][] tiles = new Tile[7][5][1];
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 5; y++) {
+                tiles[x][y][0] = Tile.FLOOR;
+            }
+        }
+        for (int y = 0; y < 4; y++) {
+            tiles[3][y][0] = Tile.WALL;
+        }
+
+        World world = new World(tiles);
+        Creature creature = new Creature(
+            world, '@', Color.WHITE, "player", 100, 10, 5);
+        creature.x = 1;
+        creature.y = 2;
+        creature.z = 0;
+        new CreatureAi(creature);
+
+        List<Point> path = new Path(creature, 5, 2).points();
+
+        assertNotNull(path);
+        assertTrue(path.stream().anyMatch(step -> step.x == 3 && step.y == 4));
+
+        Point previous = new Point(creature.x, creature.y, creature.z);
+        for (Point step : path) {
+            assertTrue(world.tile(step.x, step.y, step.z).isGround());
+            assertTrue(Math.abs(step.x - previous.x) <= 1);
+            assertTrue(Math.abs(step.y - previous.y) <= 1);
+            previous = step;
+        }
+
+        Point destination = path.get(path.size() - 1);
+        assertEquals(5, destination.x);
+        assertEquals(2, destination.y);
+    }
+
+    @Test
     void returnsNoPathWhenFloorRegionsAreIsolated() {
         Tile[][][] tiles = new Tile[5][5][1];
         for (int x = 0; x < 5; x++) {
